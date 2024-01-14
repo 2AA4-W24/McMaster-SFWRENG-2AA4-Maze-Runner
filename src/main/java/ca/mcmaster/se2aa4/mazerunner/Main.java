@@ -13,8 +13,12 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("** Starting Maze Runner");
         try {
-            System.out.println("**** Reading the maze from file " + args[0]);
-            BufferedReader reader = new BufferedReader(new FileReader(args[0]));
+            String input_file = "";
+            if (args[0].equals("-i")) {
+                input_file = args[1];
+            }
+            System.out.println("**** Reading the maze from file " + input_file);
+            BufferedReader reader = new BufferedReader(new FileReader(input_file));
             String line;
             while ((line = reader.readLine()) != null) {
                 for (int idx = 0; idx < line.length(); idx++) {
