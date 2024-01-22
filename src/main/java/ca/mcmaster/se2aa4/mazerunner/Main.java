@@ -14,7 +14,7 @@ public class Main {
         System.out.println("** Starting Maze Runner");
         try {
             String input_file = "";
-            if (args[0].equals("-i")) {
+            if (args[0].equals("-i") || args[0].equals("--input")) {
                 input_file = args[1];
             }
             System.out.println("**** Reading the maze from file " + input_file);
