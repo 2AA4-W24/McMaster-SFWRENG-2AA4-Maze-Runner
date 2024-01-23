@@ -15,7 +15,9 @@ public class Main {
 
     private static final Logger logger = LogManager.getLogger();
 
+
     public static void main(String[] args) {
+        PathFinder navigator = new PathFinder();
         logger.info("** Starting Maze Runner");
         try {
             //Creating Apache Commons cli options object to parse command line arguments
@@ -31,23 +33,13 @@ public class Main {
                 input_file = cmd.getOptionValue("input");
             }
             logger.info("**** Reading the maze from file " + input_file);
-            BufferedReader reader = new BufferedReader(new FileReader(input_file));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                for (int idx = 0; idx < line.length(); idx++) {
-                    if (line.charAt(idx) == '#') {
-                        System.out.print("WALL ");
-                    } else if (line.charAt(idx) == ' ') {
-                        System.out.print("PASS ");
-                    }
-                }
-                System.out.print(System.lineSeparator());
-            }
+
         } catch(Exception e) {
             logger.error("/!\\ An error has occured /!\\");
         }
         logger.info("**** Computing path");
-        logger.error("PATH NOT COMPUTED");
+        navigator.findPath();
+        System.out.println("Path found is " + navigator.path);
         logger.info("** End of MazeRunner");
     }
 }
