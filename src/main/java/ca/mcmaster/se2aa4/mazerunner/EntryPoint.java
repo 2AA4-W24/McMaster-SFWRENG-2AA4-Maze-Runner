@@ -9,10 +9,18 @@ public class EntryPoint {
 
     EntryIndex Index;
 
-    public EntryPoint(String input_file) throws IOException {
-        //Parse input file for entry position, pass the row index of this position as the entry_index attribute for the EntryIndex Class
-        Integer input_index = 0;
+    public EntryPoint(String filename) throws IOException {
+        SaveMaze maze_finder = new SaveMaze(filename);
+        Integer[][] maze_copy = maze_finder.mazeCopy();
+        Integer input_index = null;
+        for (int i = 0; i < maze_copy.length; i++) {
+            if (maze_copy[i][0] == 0) {
+                input_index = i;
+            }
+        }
+
         Index = new EntryIndex(input_index);
+
     }
 
     public Integer getIndexCopy() {
@@ -20,4 +28,6 @@ public class EntryPoint {
         EntryIndex Copy = new EntryIndex(copy_index);
         return Copy.entry_index;
     }
+
+
 }

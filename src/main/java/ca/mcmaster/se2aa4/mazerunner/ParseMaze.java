@@ -21,7 +21,7 @@ public class ParseMaze {
         start_position = Start.getIndexCopy();
     }
 
-    public void findSurroundings() {
+    public void findSurroundings(Integer x, Integer y) {
         WallStatus = new Position(start_position);
     }
 

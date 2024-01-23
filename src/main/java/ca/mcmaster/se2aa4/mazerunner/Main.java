@@ -33,6 +33,8 @@ public class Main {
                 input_file = cmd.getOptionValue("input");
             }
             logger.info("**** Reading the maze from file " + input_file);
+            EntryPoint find_entry = new EntryPoint(input_file);
+
 
         } catch(Exception e) {
             logger.error("/!\\ An error has occured /!\\");
