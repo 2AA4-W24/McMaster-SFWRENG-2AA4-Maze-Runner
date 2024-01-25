@@ -14,13 +14,15 @@ public class SaveMaze {
 
     public Integer[][] maze_array;
 
+    public String[] rows;
+
     private static final Logger logger = LogManager.getLogger();
 
     public SaveMaze(String filename) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(filename));
         String line;
 
-        String[] rows = new String[1000];
+        rows = new String[1000];
         int i = 0;
         while ((line = reader.readLine()) != null) {
             rows[i] = line;
@@ -36,6 +38,14 @@ public class SaveMaze {
                 }
                 else if (rows[j].charAt(k) == ' ') {
                     maze_array[j][k] = 0;
+                }
+            }
+        }
+
+        for (int l = 0; l < maze_array.length; l++) {
+            for (int w = 0; w < maze_array[0].length; w++) {
+                if (maze_array[l][w] == null) {
+                    maze_array[l][w] = 0;
                 }
             }
         }
@@ -59,6 +69,12 @@ public class SaveMaze {
                 System.out.print(maze_array[i][j]);
             }
             System.out.println();
+        }
+    }
+
+    public void mazeOut() {
+        for (int i = 0; i < maze_array.length; i++) {
+            System.out.println(rows[i]);
         }
     }
 }

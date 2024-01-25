@@ -2,9 +2,9 @@ package ca.mcmaster.se2aa4.mazerunner;
 
 public class EntryIndex {
 
-    public Integer entry_index;
+    public Integer index;
 
     EntryIndex(Integer input) {
-        entry_index = input;
+        index = input;
     }
 }

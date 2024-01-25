@@ -18,15 +18,14 @@ public class EntryPoint {
                 input_index = i;
             }
         }
-
         Index = new EntryIndex(input_index);
 
     }
 
-    public Integer getIndexCopy() {
-        Integer copy_index = Index.entry_index;
+    public EntryIndex getIndexCopy() {
+        Integer copy_index = Index.index;
         EntryIndex Copy = new EntryIndex(copy_index);
-        return Copy.entry_index;
+        return Copy;
     }
 
 

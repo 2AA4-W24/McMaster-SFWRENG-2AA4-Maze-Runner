@@ -16,11 +16,6 @@ public class ParseMaze {
         filename = input_name;
     }
 
-    public void findStart() throws IOException {
-        EntryPoint Start = new EntryPoint(filename);
-        start_position = Start.getIndexCopy();
-    }
-
     public void findSurroundings(Integer x, Integer y) {
         WallStatus = new Position(start_position);
     }

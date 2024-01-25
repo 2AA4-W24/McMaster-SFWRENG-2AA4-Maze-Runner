@@ -32,16 +32,15 @@ public class Main {
             if (cmd.hasOption("input")) {
                 input_file = cmd.getOptionValue("input");
             }
-            logger.info("**** Reading the maze from file " + input_file);
-            EntryPoint find_entry = new EntryPoint(input_file);
-
+            logger.info("**** Reading maze from file " + input_file);
+            navigator.findPath(input_file);
+            PathFinder copy = navigator.pathCopy();
+            logger.info("**** Computing path");
+            logger.info("Path found is " + copy.path);
+            logger.info("** End of MazeRunner");
 
         } catch(Exception e) {
             logger.error("/!\\ An error has occured /!\\");
         }
-        logger.info("**** Computing path");
-        navigator.findPath();
-        System.out.println("Path found is " + navigator.path);
-        logger.info("** End of MazeRunner");
     }
 }
