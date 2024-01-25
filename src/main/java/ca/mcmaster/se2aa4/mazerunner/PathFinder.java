@@ -14,31 +14,117 @@ public class PathFinder {
 
     Integer y_position;
 
+    Integer heading; // 1-4 denote N to E, counter-clockwise
+
     public void findPath(String filename) throws IOException {
-        EntryPoint start = new EntryPoint(filename);
-        SaveMaze record = new SaveMaze(filename);
+        EntryPoint start = new EntryPoint();
+        SaveMaze record = new SaveMaze();
+        ParseMaze scan = new ParseMaze();
 
+        start.findEntry(filename);
+        record.buildMaze(filename);
 
-        EntryIndex copy = start.getIndexCopy();
-        Integer[][] maze_copy = record.mazeCopy();
+        Integer[][] maze = record.maze_array;
+
 
         path = "";
-
-        for (int i = 1; i < maze_copy[0].length; i++) {
-            if (maze_copy[copy.index][i] == 0) {
-                path += "F";
+        x_position = 0;
+        y_position = start.input_index;
+        heading = 4;
+        int i = 0;
+        while (x_position != maze[0].length - 1) {
+            scan.findPos(x_position, y_position, heading, record);
+            if (scan.front_wall == 0) {
+                if ((scan.right_wall_f == 0) && (scan.right_wall == 1)) {
+                    if (x_position == 0) {
+                        path += "F R F";
+                    }
+                    else if (path.charAt(path.length() - 1) != 'F') {
+                        path += " F R F";
+                    }
+                    else {
+                        path += "F R F";
+                    }
+                    this.move_f();
+                    this.turn_r();
+                    this.move_f();
+                }
+                else {
+                    if (x_position == 0) {
+                        path += "F";
+                    }
+                    else if (path.charAt(path.length() - 1) != 'F') {
+                        path += " F";
+                    }
+                    else {
+                        path += "F";
+                    }
+                    this.move_f();
+                }
+            }
+            else {
+                if (x_position == 0) {
+                    path += "L";
+                }
+                else if (path.charAt(path.length() - 1) != 'L') {
+                    path += " L";
+                }
+                else {
+                    path += "L";
+                }
+                this.turn_l();
             }
         }
-
-        logger.info("Saved Maze: ");
-        record.mazeOut();
     }
 
-    public PathFinder pathCopy() {
-        PathFinder copy = new PathFinder();
-        copy.path = path;
-        return copy;
+    public void move_f() {
+        switch(heading) {
+            case 1:
+                y_position -= 1;
+                break;
+            case 2:
+                x_position -= 1;
+                break;
+            case 3:
+                y_position += 1;
+                break;
+            case 4:
+                x_position += 1;
+                break;
+        }
     }
 
+    public void turn_r() {
+        switch(heading) {
+            case 1:
+                heading = 4;
+                break;
+            case 2:
+                heading = 1;
+                break;
+            case 3:
+                heading = 2;
+                break;
+            case 4:
+                heading = 3;
+                break;
+        }
+    }
 
+    public void turn_l() {
+        switch(heading) {
+            case 1:
+                heading = 2;
+                break;
+            case 2:
+                heading = 3;
+                break;
+            case 3:
+                heading = 4;
+                break;
+            case 4:
+                heading = 1;
+                break;
+        }
+    }
 }

@@ -4,29 +4,22 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class EntryPoint {
 
-    EntryIndex Index;
+    Integer input_index;
 
-    public EntryPoint(String filename) throws IOException {
-        SaveMaze maze_finder = new SaveMaze(filename);
-        Integer[][] maze_copy = maze_finder.mazeCopy();
-        Integer input_index = null;
-        for (int i = 0; i < maze_copy.length; i++) {
-            if (maze_copy[i][0] == 0) {
+    public void findEntry(String filename) throws IOException{
+        SaveMaze maze_finder = new SaveMaze();
+        maze_finder.buildMaze(filename);
+        input_index = null;
+        Integer[][] maze = maze_finder.maze_array;
+        for (int i = 0; i < maze.length; i++) {
+            if (maze[i][0] == 0) {
                 input_index = i;
             }
         }
-        Index = new EntryIndex(input_index);
-
     }
-
-    public EntryIndex getIndexCopy() {
-        Integer copy_index = Index.index;
-        EntryIndex Copy = new EntryIndex(copy_index);
-        return Copy;
-    }
-
-
 }
