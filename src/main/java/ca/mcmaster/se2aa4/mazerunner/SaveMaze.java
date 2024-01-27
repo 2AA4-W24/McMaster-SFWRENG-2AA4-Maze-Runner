@@ -52,10 +52,4 @@ public class SaveMaze {
             System.out.println();
         }
     }
-
-    public void mazeOut() {
-        for (int i = 0; i < maze_array.length; i++) {
-            System.out.println(rows[i]);
-        }
-    }
 }

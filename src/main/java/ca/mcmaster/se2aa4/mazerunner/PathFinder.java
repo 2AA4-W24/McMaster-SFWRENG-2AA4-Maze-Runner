@@ -26,7 +26,6 @@ public class PathFinder {
 
         Integer[][] maze = record.maze_array;
 
-
         path = "";
         x_position = 0;
         y_position = start.input_index;
@@ -75,6 +74,41 @@ public class PathFinder {
                 this.turn_l();
             }
         }
+
+        path += " ";
+    }
+
+    public void factorPath() {
+        String new_path = "";
+        Integer count;
+        Character move_type;
+
+        if (!(path.equals(""))) {
+            for (int i = 0; i < path.length() - 1; i++) {
+                count = 0;
+                move_type = path.charAt(i);
+                if (move_type != ' ') {
+                    count += 1;
+                    for (int j = i + 1; path.charAt(j) == move_type; j++) {
+                        count += 1;
+                    }
+                }
+                if (count > 1) {
+                    new_path += count + Character.toString(move_type) + " ";
+                }
+                else {
+                    new_path += move_type + " ";
+                }
+                i += count;
+            }
+        }
+
+        path = new_path;
+    }
+
+    public void check(String filename, String path_in) throws IOException {
+        PathCheck scan = new PathCheck();
+        scan.checkPath(filename, path_in);
     }
 
     public void move_f() {

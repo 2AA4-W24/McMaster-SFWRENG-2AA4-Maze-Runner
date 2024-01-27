@@ -1,9 +1,5 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -22,6 +18,7 @@ public class Main {
             //Creating Apache Commons cli options object to parse command line arguments
             Options options = new Options();
             options.addOption("i", "input",true, "retrieve input maze file");
+            options.addOption("p", true, "verify path correctness");
 
             //Creating default command line parser
             CommandLineParser parser = new DefaultParser();
@@ -31,14 +28,18 @@ public class Main {
             if (cmd.hasOption("input")) {
                 input_file = cmd.getOptionValue("input");
             }
-
             navigator.findPath(input_file);
-
-            System.out.println(navigator.path);
+            if (cmd.hasOption("p")) {
+                navigator.check(input_file, cmd.getOptionValue("p"));
+            }
+            else {
+                navigator.factorPath();
+                System.out.println(navigator.path);
+            }
 
         } catch(Exception e) {
             logger.error("/!\\ An error has occured /!\\");
-            logger.error(e);
+            e.printStackTrace();
         }
     }
 }
