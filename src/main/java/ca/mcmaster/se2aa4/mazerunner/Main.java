@@ -45,7 +45,7 @@ public class Main {
             System.out.println(c);
         }
         catch(Exception e) {
-            logger.error("/!\\ An error has occured /!\\");
+            System.out.println("unexpected error occurred. usage: -i MAZE_FILE (specify maze input file) -p PATH (optional flag - check path correctness in factored and non-factored form");
             logger.error(e);
         }
     }
