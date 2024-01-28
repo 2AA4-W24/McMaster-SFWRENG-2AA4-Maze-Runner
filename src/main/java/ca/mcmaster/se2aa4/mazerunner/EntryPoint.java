@@ -1,22 +1,23 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 import java.io.IOException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class EntryPoint {
 
-    Integer input_index;
+    private Integer input_index;
 
-    Integer index_e;
+    private Integer index_e;
 
     public void findEntry(String filename) throws IOException {
-        SaveMaze maze_finder = new SaveMaze();
-        maze_finder.buildMaze(filename);
+        BuildMaze maze_finder = new BuildMaze();
+
+        maze_finder.saveMaze(filename);
+        MazeRecord record = maze_finder.recordCopy();
+        Integer[][] maze = record.maze;
 
         input_index = null;
         index_e = null;
-        Integer[][] maze = maze_finder.maze_array;
+
 
         for (int i = 0; i < maze.length; i++) {
             if (maze[i][0] == 0) {
@@ -29,5 +30,10 @@ public class EntryPoint {
                 index_e = i;
             }
         }
+    }
+
+    public IndexRecord indexCopy() {
+        IndexRecord copy = new IndexRecord(input_index, index_e);
+        return copy;
     }
 }

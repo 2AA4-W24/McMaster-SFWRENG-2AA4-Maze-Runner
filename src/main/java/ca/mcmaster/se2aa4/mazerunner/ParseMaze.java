@@ -1,19 +1,16 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 public class ParseMaze {
 
-    public Integer right_wall;
+    private Integer right_wall;
 
-    public Integer right_wall_f; //status of right wall in position one unit forward
+    private Integer right_wall_f; //status of right wall in position one unit forward
 
-    public Integer front_wall;
+    private Integer front_wall;
 
-    public void findPos(Integer x, Integer y, Integer heading, SaveMaze maze_finder) {
-        Integer[][] maze = maze_finder.maze_array;
+    public void findPos(Integer x, Integer y, Integer heading, BuildMaze maze_finder) {
+        MazeRecord record = maze_finder.recordCopy();
+        Integer[][] maze = record.maze;
 
         switch (heading) {
             case 1:
@@ -105,6 +102,10 @@ public class ParseMaze {
                 }
                 break;
         }
+    }
 
+    public WallRecord wallCopy() {
+        WallRecord copy = new WallRecord(front_wall, right_wall, right_wall_f);
+        return copy;
     }
 }

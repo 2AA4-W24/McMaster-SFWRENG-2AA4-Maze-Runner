@@ -4,13 +4,13 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class SaveMaze {
+public class BuildMaze {
 
-    public Integer[][] maze_array;
+    private Integer[][] maze_array;
 
-    public String[] rows;
+    private String[] rows;
 
-    public void buildMaze(String filename) throws IOException {
+    public void saveMaze(String filename) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(filename));
         String line;
 
@@ -41,15 +41,12 @@ public class SaveMaze {
                 }
             }
         }
+
+        MazeRecord record = new MazeRecord(maze_array);
     }
 
-
-    public void logMaze() {
-        for (int i = 0; i < maze_array.length; i++) {
-            for (int j = 0; j < maze_array[0].length; j++) {
-                System.out.print(maze_array[i][j]);
-            }
-            System.out.println();
-        }
+    public MazeRecord recordCopy() {
+        MazeRecord copy = new MazeRecord(maze_array);
+        return copy;
     }
 }

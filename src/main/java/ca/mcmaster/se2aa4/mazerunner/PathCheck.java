@@ -3,24 +3,31 @@ package ca.mcmaster.se2aa4.mazerunner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.io.IOException;
-import java.util.Objects;
 
-public class PathCheck extends PathFinder {
+public class PathCheck {
 
     private static final Logger logger = LogManager.getLogger();
 
+    Integer x_position;
+
+    Integer y_position;
+
+    Integer heading;
+
     public void checkPath(String filename, String path_in) throws IOException {
-        SaveMaze record = new SaveMaze();
+        BuildMaze maze_finder = new BuildMaze();
         EntryPoint start = new EntryPoint();
 
         start.findEntry(filename);
-        record.buildMaze(filename);
+        maze_finder.saveMaze(filename);
+        MazeRecord record = maze_finder.recordCopy();
+        IndexRecord start_pos = start.indexCopy();
 
         x_position = 0;
-        y_position = start.input_index;
+        y_position = start_pos.index;
         heading = 4;
         Integer factored = 0;
-        Integer[][] maze = record.maze_array;
+        Integer[][] maze = record.maze;
 
         for (int i = 0; i < path_in.length(); i++) {
             if (Character.isDigit(path_in.charAt(i))) {
@@ -43,7 +50,7 @@ public class PathCheck extends PathFinder {
         }
         else {
             x_position = maze[0].length - 1;
-            y_position = start.index_e;
+            y_position = start_pos.index_e;
             heading = 2;
 
             attempt = 2;
@@ -58,12 +65,13 @@ public class PathCheck extends PathFinder {
         }
     }
 
-    public Boolean traversePath(String filename, String path_in, Integer attempt) throws IOException {
-        SaveMaze record = new SaveMaze();
+    private Boolean traversePath(String filename, String path_in, Integer attempt) throws IOException {
+        BuildMaze maze_finder = new BuildMaze();
 
-        record.buildMaze(filename);
+        maze_finder.saveMaze(filename);
+        MazeRecord record = maze_finder.recordCopy();
 
-        Integer[][] maze = record.maze_array;
+        Integer[][] maze = record.maze;
         Integer end;
 
         if (attempt == 1) {
@@ -97,9 +105,9 @@ public class PathCheck extends PathFinder {
         }
     }
 
-    public String expandPath(String path_in) {
+    private String expandPath(String path_in) {
         String new_path = "";
-        Integer count = 0;
+        Integer count;
         Character move_type;
         Character current;
 
@@ -135,5 +143,56 @@ public class PathCheck extends PathFinder {
         }
 
         return new_path;
+    }
+
+    private void move_f() {
+        switch(heading) {
+            case 1:
+                y_position -= 1;
+                break;
+            case 2:
+                x_position -= 1;
+                break;
+            case 3:
+                y_position += 1;
+                break;
+            case 4:
+                x_position += 1;
+                break;
+        }
+    }
+
+    private void turn_r() {
+        switch(heading) {
+            case 1:
+                heading = 4;
+                break;
+            case 2:
+                heading = 1;
+                break;
+            case 3:
+                heading = 2;
+                break;
+            case 4:
+                heading = 3;
+                break;
+        }
+    }
+
+    private void turn_l() {
+        switch(heading) {
+            case 1:
+                heading = 2;
+                break;
+            case 2:
+                heading = 3;
+                break;
+            case 3:
+                heading = 4;
+                break;
+            case 4:
+                heading = 1;
+                break;
+        }
     }
 }
