@@ -8,11 +8,11 @@ public class PathCheck {
 
     private static final Logger logger = LogManager.getLogger();
 
-    Integer x_position;
+    private Integer x_position;
 
-    Integer y_position;
+    private Integer y_position;
 
-    Integer heading;
+    private Integer heading;
 
     public void checkPath(String filename, String path_in) throws IOException {
         BuildMaze maze_finder = new BuildMaze();
