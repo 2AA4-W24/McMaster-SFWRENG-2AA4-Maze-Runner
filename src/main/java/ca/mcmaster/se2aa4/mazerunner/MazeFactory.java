@@ -1,2 +1,4 @@
-package ca.mcmaster.se2aa4.mazerunner;public class MazeFactory {
+package ca.mcmaster.se2aa4.mazerunner;
+
+public class MazeFactory {
 }

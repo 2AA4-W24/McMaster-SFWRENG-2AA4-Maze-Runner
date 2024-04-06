@@ -24,23 +24,22 @@ public class PathConfig implements PathFinder {
 
         start.findEntry(filename);
         maze_finder.saveMaze(filename);
-        MazeRecord record = maze_finder.recordCopy();
-        IndexRecord start_pos = start.indexCopy();
-        WallRecord walls;
 
-        Integer[][] maze = record.maze;
+        Integer[][] maze = maze_finder.getMaze();
 
         path = "";
         x_position = 0;
-        y_position = start_pos.index;
+        y_position = start.getWestIndex();
         heading = 4;
 
         int i = 0;
         while (x_position != maze[0].length - 1) {
             scan.findPos(x_position, y_position, heading, maze_finder);
-            walls = scan.wallCopy();
-            if (walls.front_wall == 0) {
-                if ((walls.right_wall_f == 0) && (walls.right_wall == 1)) {
+            Integer right_wall = scan.getRightWallStatus();
+            Integer front_wall = scan.getFrontWallStatus();
+            Integer right_wall_f = scan.getAheadWallStatus();
+            if (front_wall == 0) {
+                if ((right_wall_f == 0) && (right_wall == 1)) {
                     if (x_position == 0) {
                         path += "F R F";
                     }

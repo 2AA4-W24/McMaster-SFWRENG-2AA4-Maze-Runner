@@ -20,14 +20,12 @@ public class PathCheck {
 
         start.findEntry(filename);
         maze_finder.saveMaze(filename);
-        MazeRecord record = maze_finder.recordCopy();
-        IndexRecord start_pos = start.indexCopy();
 
         x_position = 0;
-        y_position = start_pos.index;
+        y_position = start.getWestIndex();
         heading = 4;
         Integer factored = 0;
-        Integer[][] maze = record.maze;
+        Integer[][] maze = maze_finder.getMaze();
 
         for (int i = 0; i < path_in.length(); i++) {
             if (Character.isDigit(path_in.charAt(i))) {
@@ -50,7 +48,7 @@ public class PathCheck {
         }
         else {
             x_position = maze[0].length - 1;
-            y_position = start_pos.index_e;
+            y_position = start.getEastIndex();
             heading = 2;
 
             attempt = 2;
@@ -69,9 +67,8 @@ public class PathCheck {
         BuildMaze maze_finder = new BuildMaze();
 
         maze_finder.saveMaze(filename);
-        MazeRecord record = maze_finder.recordCopy();
 
-        Integer[][] maze = record.maze;
+        Integer[][] maze = maze_finder.getMaze();
         Integer end;
 
         if (attempt == 1) {

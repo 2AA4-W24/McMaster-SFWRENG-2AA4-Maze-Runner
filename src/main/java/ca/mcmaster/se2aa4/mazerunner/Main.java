@@ -11,9 +11,12 @@ public class Main {
 
 
     public static void main(String[] args) {
+        MazeFactory factory = new MazeFactory();
+        MazeResults results = new MazeResults();
         PathConfig navigator = new PathConfig();
+        QuickPath fast_path = new QuickPath();
         try {
-            //Creating Apache Commons cli options objects to parse command line arguments
+            //Creating Apache Commons cli options object to parse command line arguments
             Options options = new Options();
             options.addOption("i", "input",true, "retrieve input maze file");
             options.addOption("p", true, "verify path correctness");

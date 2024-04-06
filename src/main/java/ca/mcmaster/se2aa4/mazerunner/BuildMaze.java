@@ -41,12 +41,20 @@ public class BuildMaze {
                 }
             }
         }
-
-        MazeRecord record = new MazeRecord(maze_array);
     }
 
-    public MazeRecord recordCopy() {
-        MazeRecord copy = new MazeRecord(maze_array);
+    public Integer[][] getMaze() {
+        Integer[][] copy = new Integer[maze_array.length][maze_array[0].length];
+        for (int l = 0; l < maze_array.length; l++) {
+            for (int w = 0; w < maze_array[0].length; w++) {
+                if (maze_array[l][w] == 0) {
+                    copy[l][w] = 0;
+                }
+                else {
+                    copy[l][w] = 1;
+                }
+            }
+        }
         return copy;
     }
 }
