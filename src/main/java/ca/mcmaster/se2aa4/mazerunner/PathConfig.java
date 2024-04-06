@@ -9,38 +9,25 @@ public class PathConfig implements PathFinder {
     private static final Logger logger = LogManager.getLogger();
 
     private String path;
-
-    private Integer x_position;
-
-    private Integer y_position;
-
-    private Integer heading; // 1-4 denote N to E, counter-clockwise
-
     @Override
-    public void findPath(String filename) throws IOException {
-        EntryPoint start = new EntryPoint();
-        BuildMaze maze_finder = new BuildMaze();
-        ParseMaze scan = new ParseMaze();
-
+    public void findPath(String filename, EntryPoint start, BuildMaze maze_finder, ParseMaze scan, Position cords) throws IOException {
         start.findEntry(filename);
         maze_finder.saveMaze(filename);
 
         Integer[][] maze = maze_finder.getMaze();
 
         path = "";
-        x_position = 0;
-        y_position = start.getWestIndex();
-        heading = 4;
+        cords.initialize(0, start.getWestIndex(), 4);
 
         int i = 0;
-        while (x_position != maze[0].length - 1) {
-            scan.findPos(x_position, y_position, heading, maze_finder);
+        while (cords.x != maze[0].length - 1) {
+            scan.findPos(cords.x, cords.y, cords.heading, maze_finder);
             Integer right_wall = scan.getRightWallStatus();
             Integer front_wall = scan.getFrontWallStatus();
             Integer right_wall_f = scan.getAheadWallStatus();
             if (front_wall == 0) {
                 if ((right_wall_f == 0) && (right_wall == 1)) {
-                    if (x_position == 0) {
+                    if (cords.x == 0) {
                         path += "F R F";
                     }
                     else if (path.charAt(path.length() - 1) != 'F') {
@@ -49,12 +36,12 @@ public class PathConfig implements PathFinder {
                     else {
                         path += "F R F";
                     }
-                    this.move_f();
-                    this.turn_r();
-                    this.move_f();
+                    cords.move_f();
+                    cords.turn_r();
+                    cords.move_f();
                 }
                 else {
-                    if (x_position == 0) {
+                    if (cords.x == 0) {
                         path += "F";
                     }
                     else if (path.charAt(path.length() - 1) != 'F') {
@@ -63,11 +50,11 @@ public class PathConfig implements PathFinder {
                     else {
                         path += "F";
                     }
-                    this.move_f();
+                    cords.move_f();
                 }
             }
             else {
-                if (x_position == 0) {
+                if (cords.x == 0) {
                     path += "L";
                 }
                 else if (path.charAt(path.length() - 1) != 'L') {
@@ -76,7 +63,7 @@ public class PathConfig implements PathFinder {
                 else {
                     path += "L";
                 }
-                this.turn_l();
+                cords.turn_l();
             }
         }
 
@@ -112,61 +99,5 @@ public class PathConfig implements PathFinder {
         }
 
         path = new_path;
-    }
-
-    public void check(String filename, String path_in) throws IOException {
-        PathCheck scan = new PathCheck();
-        scan.checkPath(filename, path_in);
-    }
-
-    private void move_f() {
-        switch(heading) {
-            case 1:
-                y_position -= 1;
-                break;
-            case 2:
-                x_position -= 1;
-                break;
-            case 3:
-                y_position += 1;
-                break;
-            case 4:
-                x_position += 1;
-                break;
-        }
-    }
-
-    private void turn_r() {
-        switch(heading) {
-            case 1:
-                heading = 4;
-                break;
-            case 2:
-                heading = 1;
-                break;
-            case 3:
-                heading = 2;
-                break;
-            case 4:
-                heading = 3;
-                break;
-        }
-    }
-
-    private void turn_l() {
-        switch(heading) {
-            case 1:
-                heading = 2;
-                break;
-            case 2:
-                heading = 3;
-                break;
-            case 3:
-                heading = 4;
-                break;
-            case 4:
-                heading = 1;
-                break;
-        }
     }
 }

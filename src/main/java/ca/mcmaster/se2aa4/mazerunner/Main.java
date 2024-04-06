@@ -12,9 +12,7 @@ public class Main {
 
     public static void main(String[] args) {
         MazeFactory factory = new MazeFactory();
-        MazeResults results = new MazeResults();
-        PathConfig navigator = new PathConfig();
-        QuickPath fast_path = new QuickPath();
+        factory.build();
         try {
             //Creating Apache Commons cli options object to parse command line arguments
             Options options = new Options();
@@ -31,10 +29,10 @@ public class Main {
             }
 
             if (cmd.hasOption("p")) {
-                navigator.check(input_file, cmd.getOptionValue("p"));
+                factory.checkPath(input_file, cmd.getOptionValue("p"));
             }
             else {
-                navigator.findPath(input_file);
+                factory.getPath(input_file);
             }
 
         }

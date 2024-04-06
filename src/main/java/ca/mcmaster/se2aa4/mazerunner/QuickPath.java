@@ -4,7 +4,7 @@ import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class QuickPath implements PathFinder {
+public class QuickPath {
     private static final Logger logger = LogManager.getLogger();
 
     public void findPath(String filename) throws IOException {
