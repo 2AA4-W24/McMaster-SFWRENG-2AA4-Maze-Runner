@@ -19,7 +19,6 @@ public class PathConfig implements PathFinder {
         path = "";
         cords.initialize(0, start.getWestIndex(), 4);
 
-        int i = 0;
         while (cords.x != maze[0].length - 1) {
             scan.findPos(cords.x, cords.y, cords.heading, maze_finder);
             Integer right_wall = scan.getRightWallStatus();

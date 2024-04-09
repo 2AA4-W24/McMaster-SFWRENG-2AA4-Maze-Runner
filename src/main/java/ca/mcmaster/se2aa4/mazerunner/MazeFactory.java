@@ -4,7 +4,7 @@ import java.io.IOException;
 
 interface MazeSolver {
     void getPath(String filename) throws IOException;
-    void getQuickPath(String filename);
+    void getQuickPath(String filename) throws IOException;
     void checkPath(String filename, String path_in) throws IOException;
 }
 
@@ -33,8 +33,8 @@ public class MazeFactory implements MazeSolver {
     }
 
     @Override
-    public void getQuickPath(String filename) {
-
+    public void getQuickPath(String filename) throws IOException {
+        fastpath.findPath(filename, entry, mazebuilder, scan, cords);
     }
 
     @Override

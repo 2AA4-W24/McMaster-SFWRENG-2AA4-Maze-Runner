@@ -3,7 +3,7 @@ package ca.mcmaster.se2aa4.mazerunner;
 public class Position {
     Integer x;
     Integer y;
-    Integer heading;
+    Integer heading; //N-E counterclockwise, 1-4
 
     public void initialize(Integer x_in, Integer y_in, Integer heading_in) {
         x = x_in;
