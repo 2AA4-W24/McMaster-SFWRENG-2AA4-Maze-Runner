@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
 public class QuickPath implements PathFinder {
     private static final Logger logger = LogManager.getLogger();
 
-    String path;
+    private String path;
 
     @Override
     public void findPath(String filename, EntryPoint start, BuildMaze maze_finder, ParseMaze scan, Position cords) throws IOException {
@@ -28,8 +28,7 @@ public class QuickPath implements PathFinder {
         }
         String[][] routes = new String[maze.length][maze[0].length];
         Queue<Position> nodequeue = new LinkedList<>();
-        Position starting_point = cords;
-        nodequeue.add(starting_point);
+        nodequeue.add(cords);
         visited[cords.y][cords.x] = true;
         routes[cords.y][cords.x] = path;
         Integer[] new_x = {0, -1, 0, 1};
@@ -37,9 +36,6 @@ public class QuickPath implements PathFinder {
 
         while (!nodequeue.isEmpty()) {
             Position current = nodequeue.peek();
-            logger.info("x: {}", current.x);
-            logger.info("y: {}", current.y);
-            logger.info("heading: {}", current.heading);
             if (current.x == maze[0].length - 1) {
                 for (int i = 0; i < maze.length; i++) {
                     if (routes[i][maze[0].length - 1] != null) {
@@ -49,7 +45,6 @@ public class QuickPath implements PathFinder {
                 path += " ";
                 factorPath();
                 System.out.println(path);
-                logger.info("step passed");
                 return;
             }
             nodequeue.remove();
@@ -59,14 +54,42 @@ public class QuickPath implements PathFinder {
                 Integer new_heading = i;
                 if (validMove(maze, visited, row, column)) {
                     visited[column][row] = true;
+                    String previous = routes[current.y][current.x];
                     if (i == current.heading) {
-                        routes[column][row] = routes[current.y][current.x] + " F";
+                        if (previous != null && !previous.isEmpty()) {
+                            if (previous.charAt(previous.length() - 1) == 'F') {
+                                routes[column][row] = previous + "F";
+                            } else {
+                                routes[column][row] = previous + " F";
+                            }
+                        }
+                        else {
+                            routes[column][row] = previous + "F";
+                        }
                     }
                     else if (i == current.heading + 1 || (i == 1 && current.heading == 4)) {
-                        routes[column][row] = routes[current.y][current.x] + " L F";
+                        if (previous != null && !previous.isEmpty()) {
+                            if (previous.charAt(previous.length() - 1) == 'L') {
+                                routes[column][row] = previous + "L F";
+                            } else {
+                                routes[column][row] = previous + " L F";
+                            }
+                        }
+                        else {
+                            routes[column][row] = previous + "L F";
+                        }
                     }
                     else if (i == current.heading - 1 || (i == 4 && current.heading == 1)) {
-                        routes[column][row] = routes[current.y][current.x] + " R F";
+                        if (previous != null && !previous.isEmpty()) {
+                            if (previous.charAt(previous.length() - 1) == 'R') {
+                                routes[column][row] = previous + "R F";
+                            } else {
+                                routes[column][row] = previous + " R F";
+                            }
+                        }
+                        else {
+                            routes[column][row] = previous + "R F";
+                        }
                     }
                     Position addednode = new Position();
                     addednode.initialize(row, column, new_heading);
@@ -109,7 +132,8 @@ public class QuickPath implements PathFinder {
                 i += count;
             }
         }
-
+        logger.info("old path: {}", path);
+        logger.info("new path: {}", new_path);
         path = new_path;
     }
 }
