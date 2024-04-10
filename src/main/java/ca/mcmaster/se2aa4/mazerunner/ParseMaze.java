@@ -9,8 +9,7 @@ public class ParseMaze {
     private Integer front_wall;
 
     public void findPos(Integer x, Integer y, Integer heading, BuildMaze maze_finder) {
-        MazeRecord record = maze_finder.recordCopy();
-        Integer[][] maze = record.maze;
+        Integer[][] maze = maze_finder.getMaze();
 
         switch (heading) {
             case 1:
@@ -104,8 +103,18 @@ public class ParseMaze {
         }
     }
 
-    public WallRecord wallCopy() {
-        WallRecord copy = new WallRecord(front_wall, right_wall, right_wall_f);
+    public Integer getRightWallStatus() {
+        Integer copy = right_wall;
+        return copy;
+    }
+
+    public Integer getFrontWallStatus() {
+        Integer copy = front_wall;
+        return copy;
+    }
+
+    public Integer getAheadWallStatus() {
+        Integer copy = right_wall_f;
         return copy;
     }
 }

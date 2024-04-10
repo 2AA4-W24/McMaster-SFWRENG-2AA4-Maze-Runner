@@ -8,26 +8,13 @@ public class PathCheck {
 
     private static final Logger logger = LogManager.getLogger();
 
-    private Integer x_position;
-
-    private Integer y_position;
-
-    private Integer heading;
-
-    public void checkPath(String filename, String path_in) throws IOException {
-        BuildMaze maze_finder = new BuildMaze();
-        EntryPoint start = new EntryPoint();
-
+    public void checkPath(String filename, String path_in, Position cords, BuildMaze maze_finder, EntryPoint start) throws IOException {
         start.findEntry(filename);
         maze_finder.saveMaze(filename);
-        MazeRecord record = maze_finder.recordCopy();
-        IndexRecord start_pos = start.indexCopy();
 
-        x_position = 0;
-        y_position = start_pos.index;
-        heading = 4;
+        cords.initialize(0, start.getWestIndex(), 4);
         Integer factored = 0;
-        Integer[][] maze = record.maze;
+        Integer[][] maze = maze_finder.getMaze();
 
         for (int i = 0; i < path_in.length(); i++) {
             if (Character.isDigit(path_in.charAt(i))) {
@@ -43,18 +30,16 @@ public class PathCheck {
         }
 
         Integer attempt = 1;
-        Boolean test = this.traversePath(filename, path_in, attempt);
+        Boolean test = this.traversePath(filename, path_in, attempt, cords);
 
         if (test) {
             System.out.println("correct path");
         }
         else {
-            x_position = maze[0].length - 1;
-            y_position = start_pos.index_e;
-            heading = 2;
+            cords.initialize(maze[0].length - 1, start.getEastIndex(), 2);
 
             attempt = 2;
-            Boolean second_test = this.traversePath(filename, path_in, attempt);
+            Boolean second_test = this.traversePath(filename, path_in, attempt, cords);
 
             if (second_test) {
                 System.out.println("correct path");
@@ -65,13 +50,12 @@ public class PathCheck {
         }
     }
 
-    private Boolean traversePath(String filename, String path_in, Integer attempt) throws IOException {
+    private Boolean traversePath(String filename, String path_in, Integer attempt, Position cords) throws IOException {
         BuildMaze maze_finder = new BuildMaze();
 
         maze_finder.saveMaze(filename);
-        MazeRecord record = maze_finder.recordCopy();
 
-        Integer[][] maze = record.maze;
+        Integer[][] maze = maze_finder.getMaze();
         Integer end;
 
         if (attempt == 1) {
@@ -82,22 +66,22 @@ public class PathCheck {
         }
 
         int j = 0;
-        while ((!(x_position.equals(end))) && (maze[y_position][x_position] != 1) && (j < path_in.length())) {
+        while ((!(cords.x.equals(end))) && (maze[cords.y][cords.x] != 1) && (j < path_in.length())) {
             switch (path_in.charAt(j)) {
                 case 'F':
-                    this.move_f();
+                    cords.move_f();
                     break;
                 case 'R':
-                    this.turn_r();
+                    cords.turn_r();
                     break;
                 case 'L':
-                    this.turn_l();
+                    cords.turn_l();
                     break;
             }
             j++;
         }
 
-        if ((x_position.equals(end)) && (maze[y_position][x_position] == 0) && (j == path_in.length())) {
+        if ((cords.x.equals(end)) && (maze[cords.y][cords.x] == 0) && (j == path_in.length())) {
             return true;
         }
         else {
@@ -143,56 +127,5 @@ public class PathCheck {
         }
 
         return new_path;
-    }
-
-    private void move_f() {
-        switch(heading) {
-            case 1:
-                y_position -= 1;
-                break;
-            case 2:
-                x_position -= 1;
-                break;
-            case 3:
-                y_position += 1;
-                break;
-            case 4:
-                x_position += 1;
-                break;
-        }
-    }
-
-    private void turn_r() {
-        switch(heading) {
-            case 1:
-                heading = 4;
-                break;
-            case 2:
-                heading = 1;
-                break;
-            case 3:
-                heading = 2;
-                break;
-            case 4:
-                heading = 3;
-                break;
-        }
-    }
-
-    private void turn_l() {
-        switch(heading) {
-            case 1:
-                heading = 2;
-                break;
-            case 2:
-                heading = 3;
-                break;
-            case 3:
-                heading = 4;
-                break;
-            case 4:
-                heading = 1;
-                break;
-        }
     }
 }

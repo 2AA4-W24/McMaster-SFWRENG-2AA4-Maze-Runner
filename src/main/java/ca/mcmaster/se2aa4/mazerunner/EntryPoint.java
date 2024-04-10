@@ -12,8 +12,7 @@ public class EntryPoint {
         BuildMaze maze_finder = new BuildMaze();
 
         maze_finder.saveMaze(filename);
-        MazeRecord record = maze_finder.recordCopy();
-        Integer[][] maze = record.maze;
+        Integer[][] maze = maze_finder.getMaze();
 
         input_index = null;
         index_e = null;
@@ -32,8 +31,13 @@ public class EntryPoint {
         }
     }
 
-    public IndexRecord indexCopy() {
-        IndexRecord copy = new IndexRecord(input_index, index_e);
+    public Integer getWestIndex() {
+        Integer copy = input_index;
+        return copy;
+    }
+
+    public Integer getEastIndex() {
+        Integer copy = index_e;
         return copy;
     }
 }
