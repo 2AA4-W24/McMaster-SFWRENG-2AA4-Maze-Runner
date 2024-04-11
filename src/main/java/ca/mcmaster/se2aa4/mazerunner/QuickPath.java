@@ -14,7 +14,7 @@ public class QuickPath implements PathFinder {
     String path;
 
     @Override
-    public void findPath(String filename, EntryPoint start, BuildMaze maze_finder, ParseMaze scan, Position cords) throws IOException {
+    public String findPath(String filename, EntryPoint start, BuildMaze maze_finder, ParseMaze scan, Position cords) throws IOException {
         start.findEntry(filename);
         maze_finder.saveMaze(filename);
 
@@ -45,8 +45,7 @@ public class QuickPath implements PathFinder {
                 path += " ";
                 path = PathOutput.factorPath(path);
                 path = path.trim();
-                System.out.println(path);
-                return;
+                return path;
             }
             nodequeue.remove();
             for (int i = 1; i < 5; i++) {
@@ -98,6 +97,7 @@ public class QuickPath implements PathFinder {
                 }
             }
         }
+        return null;
     }
 
     private Boolean validMove(Integer[][] maze, Boolean[][] visited, Integer x, Integer y) {

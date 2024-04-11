@@ -79,7 +79,12 @@ PATH NOT COMPUTED
 The delivered program at the end of this assignment should use the following flags:
 
 - `-i MAZE_FILE`: specifies the filename to be used;
+- `-method righthand MAZE_FILE`: can also specify the filename for the right-hand algorithm;
+- `-method bfs MAZE_FILE`: is used to search the maze with the faster breadth-first-search based algorithm;
 - `-p PATH_SEQUENCE`: activates the path verification mode to validate that PATH_SEQUENCE is correct for the maze
+- `-baseline bfs`: is used to benchmark the runtime and speedup of the maze exploration with the breadth-first-search algorithm as a baseline
+- `-baseline righthand`: is used to benchmark the runtime and speedup of the maze exploration with the right-hand algorithm as a baseline
+- baseline tag is included after specifying the maze file, to enable benchmark mode
 
 If you are also delivering the bonus, your program will react to a third flag:
 

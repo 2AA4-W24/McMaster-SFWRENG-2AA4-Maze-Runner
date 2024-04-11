@@ -8,7 +8,7 @@ public class PathConfig implements PathFinder {
 
     private static final Logger logger = LogManager.getLogger();
     @Override
-    public void findPath(String filename, EntryPoint start, BuildMaze maze_finder, ParseMaze scan, Position cords) throws IOException {
+    public String findPath(String filename, EntryPoint start, BuildMaze maze_finder, ParseMaze scan, Position cords) throws IOException {
         start.findEntry(filename);
         maze_finder.saveMaze(filename);
 
@@ -67,6 +67,6 @@ public class PathConfig implements PathFinder {
         path += " ";
 
         path = PathOutput.factorPath(path);
-        System.out.println(path);
+        return path;
     }
 }
