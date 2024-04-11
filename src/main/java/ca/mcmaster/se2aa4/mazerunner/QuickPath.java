@@ -11,10 +11,10 @@ import org.apache.logging.log4j.Logger;
 public class QuickPath implements PathFinder {
     private static final Logger logger = LogManager.getLogger();
 
-    private String path;
+    String path;
 
     @Override
-    public void findPath(String filename, EntryPoint start, BuildMaze maze_finder, ParseMaze scan, Position cords) throws IOException {
+    public String findPath(String filename, EntryPoint start, BuildMaze maze_finder, ParseMaze scan, Position cords) throws IOException {
         start.findEntry(filename);
         maze_finder.saveMaze(filename);
 
@@ -43,9 +43,9 @@ public class QuickPath implements PathFinder {
                     }
                 }
                 path += " ";
-                factorPath();
-                System.out.println(path);
-                return;
+                path = PathOutput.factorPath(path);
+                path = path.trim();
+                return path;
             }
             nodequeue.remove();
             for (int i = 1; i < 5; i++) {
@@ -96,44 +96,11 @@ public class QuickPath implements PathFinder {
                     nodequeue.add(addednode);
                 }
             }
-            if (nodequeue.isEmpty()) {
-                if (current.x != maze[0].length) {
-                    logger.info("failed. ");
-                }
-            }
         }
+        return null;
     }
 
     private Boolean validMove(Integer[][] maze, Boolean[][] visited, Integer x, Integer y) {
         return (x >= 0 && y >= 0 && x < maze[0].length && y < maze.length && maze[y][x] == 0 && !visited[y][x]);
-    }
-
-    private void factorPath() {
-        String new_path = "";
-        Integer count;
-        Character move_type;
-
-        if (!(path.equals(""))) {
-            for (int i = 0; i < path.length() - 1; i++) {
-                count = 0;
-                move_type = path.charAt(i);
-                if (move_type != ' ') {
-                    count += 1;
-                    for (int j = i + 1; path.charAt(j) == move_type; j++) {
-                        count += 1;
-                    }
-                }
-                if (count > 1) {
-                    new_path += count + Character.toString(move_type) + " ";
-                }
-                else {
-                    new_path += move_type + " ";
-                }
-                i += count;
-            }
-        }
-        logger.info("old path: {}", path);
-        logger.info("new path: {}", new_path);
-        path = new_path;
     }
 }

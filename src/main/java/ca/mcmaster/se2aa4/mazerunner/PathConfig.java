@@ -7,16 +7,14 @@ import org.apache.logging.log4j.Logger;
 public class PathConfig implements PathFinder {
 
     private static final Logger logger = LogManager.getLogger();
-
-    private String path;
     @Override
-    public void findPath(String filename, EntryPoint start, BuildMaze maze_finder, ParseMaze scan, Position cords) throws IOException {
+    public String findPath(String filename, EntryPoint start, BuildMaze maze_finder, ParseMaze scan, Position cords) throws IOException {
         start.findEntry(filename);
         maze_finder.saveMaze(filename);
 
         Integer[][] maze = maze_finder.getMaze();
 
-        path = "";
+        String path = "";
         cords.initialize(0, start.getWestIndex(), 4);
 
         while (cords.x != maze[0].length - 1) {
@@ -68,35 +66,7 @@ public class PathConfig implements PathFinder {
 
         path += " ";
 
-        this.factorPath();
-        System.out.println(path);
-    }
-
-    private void factorPath() {
-        String new_path = "";
-        Integer count;
-        Character move_type;
-
-        if (!(path.equals(""))) {
-            for (int i = 0; i < path.length() - 1; i++) {
-                count = 0;
-                move_type = path.charAt(i);
-                if (move_type != ' ') {
-                    count += 1;
-                    for (int j = i + 1; path.charAt(j) == move_type; j++) {
-                        count += 1;
-                    }
-                }
-                if (count > 1) {
-                    new_path += count + Character.toString(move_type) + " ";
-                }
-                else {
-                    new_path += move_type + " ";
-                }
-                i += count;
-            }
-        }
-
-        path = new_path;
+        path = PathOutput.factorPath(path);
+        return path;
     }
 }
