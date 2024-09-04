@@ -19,10 +19,7 @@ public class Main {
             options.addOption("i", "input",true, "retrieve input maze file");
             options.addOption("p", true, "verify path correctness");
             options.addOption("baseline", true, "check time benchmark");
-            options.addOption(Option.builder("method")
-                            .numberOfArgs(2)
-                            .desc("retrieve input maze file for multiple algorithms")
-                            .build());
+            options.addOption("method", true, "specify faster path solving algorithm");
 
             //Creating default command line parser
             CommandLineParser parser = new DefaultParser();
@@ -30,45 +27,41 @@ public class Main {
 
             String input_file = "";
             String bench = "";
-            String[] input = new String[2];
+            String algo = "";
             if (cmd.hasOption("input")) {
                 input_file = cmd.getOptionValue("input");
             }
-            else if (cmd.hasOption("method")) {
-                input = cmd.getOptionValues("method");
-                input_file = input[1];
-            }
             if (cmd.hasOption("baseline")) {
                 bench = cmd.getOptionValue("baseline");
+            }
+            if (cmd.hasOption("method")) {
+                algo = cmd.getOptionValue("method");
             }
 
             if (cmd.hasOption("p")) {
                 factory.checkPath(input_file, cmd.getOptionValue("p"));
             }
             else if (cmd.hasOption("baseline")) {
-                if (cmd.hasOption("input")) {
-                    factory.benchmark(input_file, "righthand", bench);
-                }
-                else if (cmd.hasOption("method")) {
-                    if (input[0].equals("righthand")) {
+                if (cmd.hasOption("method")) {
+                    if (algo.equals("righthand")) {
                         factory.benchmark(input_file, "righthand", bench);
                     }
-                    else if (input[0].equals("bfs")) {
+                    else if (algo.equals("bfs")) {
                         factory.benchmark(input_file, "bfs", bench);
                     }
                 }
             }
             else {
-                if (cmd.hasOption("input")) {
-                    factory.getPath(input_file);
-                }
-                else if (cmd.hasOption("method")) {
-                    if (input[0].equals("righthand")) {
+                if (cmd.hasOption("method")) {
+                    if (algo.equals("righthand")) {
                         factory.getPath(input_file);
                     }
-                    else if (input[0].equals("bfs")) {
+                    else if (algo.equals("bfs")) {
                         factory.getQuickPath(input_file);
                     }
+                }
+                else {
+                    factory.getPath(input_file);
                 }
             }
         }

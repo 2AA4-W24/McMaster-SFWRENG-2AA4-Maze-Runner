@@ -54,6 +54,7 @@ public class Benchmark {
             if (current != ' ') {
                 if (Character.isDigit(current)) {
                     baselength += Character.getNumericValue(current);
+                    i++;
                 }
                 else {
                     baselength++;
@@ -66,6 +67,7 @@ public class Benchmark {
             if (current != ' ') {
                 if (Character.isDigit(current)) {
                     testlength += Character.getNumericValue(current);
+                    i++;
                 }
                 else {
                     testlength++;
@@ -76,6 +78,8 @@ public class Benchmark {
         BigDecimal bd = new BigDecimal(speedup);
         bd = bd.round(new MathContext(2));
         speedup = bd.doubleValue();
+        System.out.println(baselength);
+        System.out.println(testlength);
         System.out.println("Speedup is " + speedup);
     }
 }
