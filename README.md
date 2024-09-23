@@ -29,7 +29,7 @@ This program explores a maze, finding a path from an entry point to an exit one.
 To build the program, simply package it with Maven:
 
 ```
-mvn -q clean package 
+mvn package 
 ```
 Then, a path through an example maze using the 'right-hand method' can be found with these flags, while executing the .jar file:
 
